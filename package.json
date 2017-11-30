@@ -1,0 +1,27 @@
+{
+  "name": "McIlroy-frontend",
+  "version": "0.5.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack -d",
+    "test": "tape 'tests/**/*.test.js'"
+  },
+  "author": "Jonathan Price",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "glob": "^7.1.2",
+    "ramda": "^0.25.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-tape-runner": "^2.0.1",
+    "tape": "^4.8.0",
+    "webpack": "^3.8.1"
+  }
+}
