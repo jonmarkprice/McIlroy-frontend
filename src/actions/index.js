@@ -23,6 +23,8 @@ const expandSavedProgram = id =>
   ({type: 'EXPAND_SAVED_PROGRAM', id});
 const collapseProgram = id =>
   ({type: 'COLLAPSE_SAVED_PROGRAM', id})
+const saveAlias = (name, expansion) =>
+  ({type: 'SAVE_ALIAS', name, expansion});
 
 module.exports = {
     pushFunction
@@ -37,4 +39,5 @@ module.exports = {
   , editName
   , expandSavedProgram
   , collapseProgram
+  , saveAlias
 }

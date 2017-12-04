@@ -2,9 +2,10 @@
 
 const test = require('tape');
 const reducer = require('../src/reducers');
-const { updateProgramNameBuffer,
-        updateProgramName,
-        addProgram } = require('../src/actions');
+const { updateProgramNameBuffer
+        , updateProgramName
+        , saveAlias
+        , addProgram } = require('../src/actions');
 
 const initialState = {
   input     : [{label: '[No Input]', data: null}],
@@ -14,7 +15,6 @@ const initialState = {
   saved     : {},
   next_id   : 0
 }
-
 
 // 'UPDATE_NAME_BUFFER'
 test('should update the correct buffer from the action text', (assert) => {
@@ -120,6 +120,28 @@ test('should save an empty program', (assert) => {
     next_id   : 1
   }
   assert.deepEqual(reducer(initialState, addProgram()), expected_state);
+  assert.end();
+});
+
+test('should save a simple alias', assert => {
+  const expectedState = {
+    input     : [{label: '[No Input]', data: null}],
+    selected  : 0,
+    program   : [],
+    displayed : '',
+    saved     : {
+      '0': {
+        id: 0,
+        program: [3, '*'],
+        name: 'simple',
+        buffer: 'simple',
+        editing_name: false,
+        editing: false,
+      }
+    },
+    next_id   : 1
+  };
+  assert.deepEqual(reducer(initialState, saveAlias('simple', [3, '*'])), expectedState);
   assert.end();
 });
 

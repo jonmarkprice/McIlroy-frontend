@@ -1,5 +1,6 @@
 // import { combineReducers } from 'redux' // Not using currently
-const { append } = require('ramda');
+const R = require('ramda');
+const { append } = R; 
 
 // In order to do SSR, we need pass our state as JSON. JSON doesn't have a
 // Map, so I need to either transform my Map into a list of pairs, or use a
@@ -45,6 +46,28 @@ function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         displayed: action.name
       });
+    case 'SAVE_ALIAS': 
+      // XXX: I don't like that we are using IDs here over maps...
+      // what was the reasoning behind that?
+      // I wanted to be able to delete... but not use an object as a map -- oh!
+      // because the *name* is editable, so I needed a unique identifier, and it
+      // couldn't be the name. But I also couldn't rely on indexes staying where
+      // they were, so I needed to record the id in the data itself.
+
+      // Actually, why not just use a simple list and append to it?
+      // const nextId = R.lensPath(['saved', );
+      const nextSaveSlot = R.lensPath(['saved', state.next_id]);
+      return R.pipe(
+        R.set(nextSaveSlot, {
+          name: action.name,
+          program : action.expansion,
+          editing : false,
+          buffer  : action.name,
+          id      : state.next_id,
+          editing_name: false
+        }),
+        R.over(R.lensProp('next_id'), R.inc)
+      )(state);
     case 'SAVE_PROGRAM': // Saves a new program.
       return Object.assign({}, state, {
         saved: Object.assign({}, state.saved, {
