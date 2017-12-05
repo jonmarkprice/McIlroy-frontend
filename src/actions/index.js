@@ -25,6 +25,39 @@ const collapseProgram = id =>
   ({type: 'COLLAPSE_SAVED_PROGRAM', id})
 const saveAlias = (name, expansion) =>
   ({type: 'SAVE_ALIAS', name, expansion});
+const savedAlias = () =>
+  ({type: 'SAVED_ALIAS'});
+
+// XXX: Where do we set the type?
+function postAlias(name, expansion) {
+  console.log('-- SAVING PROGRAM --');
+
+  // use fetch
+  // TODO: polyfill for IE? (Edge is fine)
+  const config = {
+    method  : 'POST',
+    headers : new Headers({
+      'Content-Type': 'application/json'
+    }),
+    mode    : 'cors', 
+    cache   : 'default',
+    body    : JSON.stringify({name, expansion})
+    //credidentials: 'same-origin'
+  }
+
+  return function(dispatch) { // any difference if arrow?
+    // TODO: possibly have action to say that I *am* saving
+    // so that two clicks don't spawn two requests (if content is the same).
+    console.log('-- SENDING FETCH --');
+
+    return fetch('http://localhost:3000/user/test/save-program', config)
+      .then(
+        value => { console.log('-- REQUEST COMPLETED --'); },
+        error => { console.error(err); }
+      )
+      .then(() => dispatch(savedAlias()));
+  }
+}
 
 module.exports = {
     pushFunction
@@ -40,4 +73,5 @@ module.exports = {
   , expandSavedProgram
   , collapseProgram
   , saveAlias
+  , postAlias
 }

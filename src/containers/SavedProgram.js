@@ -16,7 +16,7 @@ class Container extends React.Component {
     {
       return (<div>Error</div>);
     }
-    // console.dir(this.props.obj)
+
     let program;
     const id = this.props.obj.id || 0;
     if (this.props.obj.editing) {

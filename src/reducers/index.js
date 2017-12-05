@@ -8,19 +8,8 @@ const { append } = R;
 // Transforming to and from a list of pairs can be accomplished using the
 // spread operator, e.g. [...map] and Map's constructor, e.g. new Map(pairs).
 // However, I would need to know which (properties) to transform, so this may
-// be problematic.
-const initialState = {
-  input     : [{label: '[No Input]', data: null}],
-  selected  : 0,
-  program   : [],
-  displayed : '',
-  saved     : {},
-  next_id   : 0
-}
-
-
 // XXX Many of these are ugly!! Consider just making one copy, mutating, then returning.
-function reducer(state = initialState, action) {
+function reducer(state, action) {
   switch (action.type) {
     case 'PUSH_FUNCTION':
       return Object.assign({}, state, {
@@ -123,6 +112,12 @@ function reducer(state = initialState, action) {
             editing: false
           })
         })
+      });
+    case 'POST_ALIAS':
+      return state; // XXX Not sure if I need to do anything here.
+    case 'SAVED_ALIAS':
+      return Object.assign({}, state, {
+        save_ok: 'YES'
       });
     default:
       return state

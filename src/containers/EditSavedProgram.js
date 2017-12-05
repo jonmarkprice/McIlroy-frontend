@@ -6,10 +6,13 @@ const { updateProgramName
        , editName
        , clearCanvas
        , pushFunction
-       , collapseProgram } = require('../actions');
+       , collapseProgram
+       , postAlias } = require('../actions');
 const ProgramName     = require('../components/ProgramName');
 const EditProgramName = require('../components/EditProgramName');
 
+// Is there any point in these?
+// Why not use dispatch in the functions directly?
 const mapDispatchToProps = dispatch => ({
   onNameUpdate: id => {
     dispatch(updateProgramName(id));
@@ -28,6 +31,13 @@ const mapDispatchToProps = dispatch => ({
   },
   addTokenToCanvas: text => {
     dispatch(pushFunction(text));
+  },
+  onPostAlias: (name, program) => {
+    console.log('-- SENT --');
+    dispatch(postAlias(name, program)).then(
+      v => { console.log('-- RECIEVED --'); },
+      e => { console.error(e); }
+    );
   }
 });
 
@@ -63,13 +73,6 @@ class Container extends React.Component {
         {toDisplay}
         <ProgramRow program={this.props.obj.program} />
         <button onClick={() => {
-          //this.props.onClear();
-          //const alias = {
-            //type    : 'alias',
-            //display : this.props.obj.name,
-            //value   : [...this.props.obj.program, ':']
-            
-          //};
           const alias = {
             name: this.props.obj.name,
             expansion: this.props.obj.program
@@ -78,9 +81,12 @@ class Container extends React.Component {
         }}>
           Load
         </button>
-        <button onClick={() => this.props.onProgramCollapse(this.props.obj.id)}
-                className="done-editing-saved-function">
-          Done
+        <button onClick={() => {
+          this.props.onProgramCollapse(this.props.obj.id);
+          this.props.onPostAlias(this.props.obj.name,
+                                 this.props.obj.program); }}
+          className="done-editing-saved-function">
+          Save {/* or "Done editing" */}
         </button>
       </div>
     );
