@@ -28,7 +28,7 @@ class ProgramInput extends React.Component {
         <h2>Canvas</h2>
         <ProgramRow program={this.props.program} />
         <button id="save" onClick={this.props.onAddProgram}>
-          Save
+          Name program
         </button>
         <button id="clear-canvas" onClick={this.props.onClear}>
           Clear

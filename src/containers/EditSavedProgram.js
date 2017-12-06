@@ -86,7 +86,7 @@ class Container extends React.Component {
           this.props.onPostAlias(this.props.obj.name,
                                  this.props.obj.program); }}
           className="done-editing-saved-function">
-          Save {/* or "Done editing" */}
+          Save to server {/* or "Done editing" */}
         </button>
       </div>
     );
